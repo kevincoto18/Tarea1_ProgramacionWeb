@@ -12,9 +12,9 @@ namespace Tarea1.Data
 
         public PezData()
         {
-            ocean.Id_Oceano = 0;
-            ocean.Descripcion_Oceano = "Ejemplo";
-            ocean.Fecha_PezenOceano = "2002";
+            ocean.Id_Oceano = 1;
+            ocean.Descripcion_Oceano = "Oceano Atlantico";
+            ocean.Fecha_PezenOceano = "0000";
             ListaOceanos.Add(ocean);
             //---------------------------------------------
             ListaPeces = new List<Pez>();
@@ -33,6 +33,13 @@ namespace Tarea1.Data
         {
             try
             {
+                foreach (var i in ListaPeces)
+                {
+                    if (i.Id_pez == pez.Id_pez)
+                    {
+                        return false;
+                    }
+                }
                 ListaPeces.Add(pez);
                 return true;
             }
@@ -48,14 +55,36 @@ namespace Tarea1.Data
             try
             {
 
-                var encontrado = ListaPeces.Find(i => i.Id_pez == id_pez);
-                var oceano = OceanoData.ListaOceanos.Find(i => i.Id_Oceano == id_oceano);
+                //var encontrado = ListaPeces.Find(i => i.Id_pez == id_pez);
+                //var oceano = OceanoData.ListaOceanos.Find(i => i.Id_Oceano == id_oceano);
+                var encontrado = new Pez();
+                var oceano = new Oceano();
+                foreach (var i in ListaPeces)
+                {
+                    if (i.Id_pez == id_pez)
+                        encontrado = i;
+                }
+                foreach (var i in ListaOceanos)
+                {
+                    if (i.Id_Oceano == id_oceano)
+                        oceano = i;
+                }
                 if (oceano == null)
                 {
                     return false;
                 }
                 else
                 {
+                    foreach (var i in ListaPeces)
+                    {
+                        foreach (var ii in i.OceanoPez)
+                        {
+                            if (ii.Id_Oceano == oceano.Id_Oceano)
+                            {
+                                return false;
+                            }
+                        }
+                    }
                     encontrado.OceanoPez.Add(oceano);
                     return true;
                 }
@@ -67,6 +96,23 @@ namespace Tarea1.Data
                 return false;
                 throw;
             }
+        }
+        public List<Oceano> OceanosxPez(int id)
+        {
+            var oceanosdepez = new List<Oceano>();
+            foreach (var i in ListaPeces)
+            {
+                if (i.Id_pez == id)
+                {
+                    foreach (Oceano ocean in i.OceanoPez)
+                    {
+                        oceanosdepez.Add(ocean);
+
+                    }
+                }
+            }
+            return oceanosdepez;
+
         }
 
         public Pez filtrado(int id)
@@ -81,17 +127,78 @@ namespace Tarea1.Data
             return null;
         }
 
-        public bool PezEditado()
+        public bool PezEditado(Pez pez)
         {
+            List<Oceano> oceanostemporales = new List<Oceano>();
 
+            bool editado;
+            try
+            {
+                bool encontrado = false;
+                var id = pez.Id_pez;
+                foreach (var i in ListaPeces)
+                {
+                    if (i.Id_pez == id)
+                        encontrado = true;
+                    oceanostemporales = i.OceanoPez;
+                }
+
+                if (encontrado)
+                {
+                    ListaPeces.RemoveAll(x => x.Id_pez == id);
+                    pez.OceanoPez = oceanostemporales;
+                    ListaPeces.Add(pez);
+                    editado = true;
+                }
+                else
+                    editado = false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return editado;
         }
 
+        //--------------------------------------Editar oceanos de pez--------------------------------------
+        public bool EditarOceanoporPez(int id_pez, Oceano oceano)
+        {
+            bool editado = false ;
+            var Pez_encontrado = ListaPeces.Find(i => i.Id_pez == id_pez);
+            if (Pez_encontrado == null)
+                return false;
+
+            Oceano ocean = new Oceano();
+            foreach(var i in Pez_encontrado.OceanoPez)
+            {
+                if(oceano.Id_Oceano == i.Id_Oceano)
+                {
+                    ocean = i;
+                    ocean.Fecha_PezenOceano = oceano.Fecha_PezenOceano;
+                    ListaOceanos.RemoveAll(i => i.Id_Oceano == ocean.Id_Oceano);
+                    ListaOceanos.Add(ocean);
+                    editado= true;
+                    break;
+                }
+                else
+                    editado = false;
+            }
+            if (editado)
+                return true;
+            else
+                return false;
+           
+        }
+        //--------------------------------------Editar oceanos de pez--------------------------------------
         public bool EliminarPez(int id)
         {
             try
             {
-                ListaPeces.RemoveAll(i => i.Id_pez == id);
-                return true;
+                if (!ListaPeces.RemoveAll(i => i.Id_pez == id).Equals(0))
+                    return true;
+                else
+                    return false;
             }
             catch (Exception)
             {

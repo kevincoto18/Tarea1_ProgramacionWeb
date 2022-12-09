@@ -12,7 +12,7 @@ namespace Tarea1.Data
             ListaOceanos = new List<Oceano>();
             oceano.Id_Oceano = 1;
             oceano.Descripcion_Oceano = "Oceano Atlantico";
-            oceano.Fecha_PezenOceano = "10/10/2002";
+            oceano.Fecha_PezenOceano = "0000";
             ListaOceanos.Add(oceano);
         }
 
@@ -25,6 +25,13 @@ namespace Tarea1.Data
         {
             try
             {
+                foreach (var i in ListaOceanos)
+                {
+                    if (i.Id_Oceano == Oceanonuevo.Id_Oceano)
+                    {
+                        return false;
+                    }
+                }
                 ListaOceanos.Add(Oceanonuevo);
                 return true;
             }
@@ -67,6 +74,18 @@ namespace Tarea1.Data
                     {
                         ListaOceanos.RemoveAll(x => x.Id_Oceano == id);
                         ListaOceanos.Add(oceano);
+                        foreach(var i in PezData.ListaPeces)
+                        {
+                            foreach( var ii in i.OceanoPez)
+                            {
+                                if(ii.Id_Oceano == id)
+                                {
+                                    i.OceanoPez.RemoveAll(i => i.Id_Oceano == id);
+                                    i.OceanoPez.Add(oceano);
+                                    break;
+                                }
+                            }
+                        }
                         editado = true;
                     }
                     catch (Exception)
@@ -93,8 +112,11 @@ namespace Tarea1.Data
         {
             try
             {
-                ListaOceanos.RemoveAll(i => i.Id_Oceano == id);
-                return true;
+                if (!ListaOceanos.RemoveAll(i => i.Id_Oceano == id).Equals(0))
+                    return true;
+                else
+                    return false;
+
             }
             catch (Exception)
             {
