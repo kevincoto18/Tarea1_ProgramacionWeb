@@ -54,7 +54,7 @@ namespace Tarea1.Data
         {
             try
             {
-
+                bool agregado = false;
                 //var encontrado = ListaPeces.Find(i => i.Id_pez == id_pez);
                 //var oceano = OceanoData.ListaOceanos.Find(i => i.Id_Oceano == id_oceano);
                 var encontrado = new Pez();
@@ -64,32 +64,36 @@ namespace Tarea1.Data
                     if (i.Id_pez == id_pez)
                         encontrado = i;
                 }
-                foreach (var i in ListaOceanos)
+                foreach (var i in OceanoData.ListaOceanos)
                 {
                     if (i.Id_Oceano == id_oceano)
                         oceano = i;
                 }
-                if (oceano == null)
+               if(!(encontrado == null || oceano == null))
                 {
-                    return false;
-                }
-                else
-                {
-                    foreach (var i in ListaPeces)
+                    foreach(var i in ListaPeces)
                     {
-                        foreach (var ii in i.OceanoPez)
-                        {
-                            if (ii.Id_Oceano == oceano.Id_Oceano)
+                        if(i.Id_pez == encontrado.Id_pez)
+                        { 
+                            foreach(var ii in i.OceanoPez)
                             {
-                                return false;
+                                if(ii.Id_Oceano == oceano.Id_Oceano)
+                                {
+                                    agregado = false;
+                                }
+                                else
+                                {
+                                    encontrado.OceanoPez.Add(oceano);
+                                    agregado = true;
+                                    break;
+                                }
                             }
                         }
                     }
-                    encontrado.OceanoPez.Add(oceano);
-                    return true;
+                   
                 }
 
-
+                return agregado;
             }
             catch (Exception)
             {

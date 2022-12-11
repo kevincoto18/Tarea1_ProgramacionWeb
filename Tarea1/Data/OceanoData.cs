@@ -55,6 +55,24 @@ namespace Tarea1.Data
             return null;
         }
 
+        public List<Pez> ListarPezporOceano(int id)
+        {
+            List<Pez> PezxOceano = new List<Pez>();
+            Pez pezz = new Pez();
+            foreach(var Pez in PezData.ListaPeces)
+            {
+                foreach(var OceanoxPez in Pez.OceanoPez)
+                {
+                    if (OceanoxPez.Id_Oceano == id)
+                    {
+                        PezxOceano.Add(Pez);
+                    }
+                }
+            }
+            return PezxOceano;
+            
+        }
+
         public bool EditarOceano(Oceano oceano)
         {
 

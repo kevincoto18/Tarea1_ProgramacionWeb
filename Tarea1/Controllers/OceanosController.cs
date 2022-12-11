@@ -27,6 +27,13 @@ namespace Tarea1.Controllers
             return Ok(data.filtrado(id));
         }
 
+        [HttpGet]
+        [Route("api/ListaPezporOceano/{id}")]
+        public IActionResult ListarPezporOceano(int id)
+        {
+            return Ok(data.ListarPezporOceano(id));
+        }
+
         // POST api/<OceanosController>
         [HttpPost]
         public IActionResult Post([FromBody] Oceano oceano)
