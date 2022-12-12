@@ -59,9 +59,9 @@ namespace Tarea1.Data
         {
             List<Pez> PezxOceano = new List<Pez>();
             Pez pezz = new Pez();
-            foreach(var Pez in PezData.ListaPeces)
+            foreach (var Pez in PezData.ListaPeces)
             {
-                foreach(var OceanoxPez in Pez.OceanoPez)
+                foreach (var OceanoxPez in Pez.OceanoPez)
                 {
                     if (OceanoxPez.Id_Oceano == id)
                     {
@@ -70,7 +70,7 @@ namespace Tarea1.Data
                 }
             }
             return PezxOceano;
-            
+
         }
 
         public bool EditarOceano(Oceano oceano)
@@ -92,11 +92,11 @@ namespace Tarea1.Data
                     {
                         ListaOceanos.RemoveAll(x => x.Id_Oceano == id);
                         ListaOceanos.Add(oceano);
-                        foreach(var i in PezData.ListaPeces)
+                        foreach (var i in PezData.ListaPeces)
                         {
-                            foreach( var ii in i.OceanoPez)
+                            foreach (var ii in i.OceanoPez)
                             {
-                                if(ii.Id_Oceano == id)
+                                if (ii.Id_Oceano == id)
                                 {
                                     i.OceanoPez.RemoveAll(i => i.Id_Oceano == id);
                                     i.OceanoPez.Add(oceano);

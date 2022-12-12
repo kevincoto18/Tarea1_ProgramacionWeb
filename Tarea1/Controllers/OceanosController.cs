@@ -48,7 +48,7 @@ namespace Tarea1.Controllers
         [HttpPut]
         public IActionResult Put([FromBody] Oceano oceano)
         {
-            if(data.EditarOceano(oceano))
+            if (data.EditarOceano(oceano))
                 return Ok();
             else
                 return BadRequest();

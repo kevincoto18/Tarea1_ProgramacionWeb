@@ -6,7 +6,7 @@
         public string Nombre_pez { get; set; }
 
         public string Fecha_pez { get; set; }
-        
+
         public List<Oceano> OceanoPez { get; set; }
     }
 }

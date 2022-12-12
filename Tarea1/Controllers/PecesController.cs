@@ -26,7 +26,7 @@ namespace Tarea1.Controllers
         }
         [HttpGet]
         [Route("api/OceanosporPez/{identificador}")]
-        public IActionResult ListarOceanosdePez(int identificador )
+        public IActionResult ListarOceanosdePez(int identificador)
         {
             return Ok(data.OceanosxPez(identificador));
         }
@@ -42,9 +42,9 @@ namespace Tarea1.Controllers
         }
         [HttpPost]
         [Route("api/AgregarOceanoaPez/{id_pez}/{id_oceano}")]
-        public IActionResult AgregarOceanoalPez(int id_pez,int id_oceano)
+        public IActionResult AgregarOceanoalPez(int id_pez, int id_oceano)
         {
-            if (data.AgregarOceanoPez(id_pez,id_oceano))
+            if (data.AgregarOceanoPez(id_pez, id_oceano))
                 return Ok();
             else
                 return BadRequest();
@@ -52,17 +52,17 @@ namespace Tarea1.Controllers
 
         // PUT api/<Peces>/5
         [HttpPut]
-        public IActionResult Put( [FromBody] Pez pez)
+        public IActionResult Put([FromBody] Pez pez)
         {
-            if(data.PezEditado(pez))
-             return Ok();
+            if (data.PezEditado(pez))
+                return Ok();
             else
                 return BadRequest();
         }
 
         [HttpPut]
         [Route("api/EditarOceanosdePez/{id}")]
-        public IActionResult EditarOceanosdePez(int id,[FromBody] Oceano oceano)
+        public IActionResult EditarOceanosdePez(int id, [FromBody] Oceano oceano)
         {
             if (data.EditarOceanoporPez(id, oceano))
                 return Ok();
